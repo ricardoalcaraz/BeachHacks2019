@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BeachHacks.DAL;
+using BeachHacks.Models;
 using LinqToTwitter;
 
 namespace TwitterScraperConsoleApp
@@ -20,6 +21,9 @@ namespace TwitterScraperConsoleApp
             IAuthorizer authorizer = DoPinOAuth();
             authorizer.AuthorizeAsync().Wait();
             var twitterCtx = new TwitterContext(authorizer);
+            string twitterHandle = "AndrewYang";
+            GetPresidentialCandidateTweets(twitterCtx, twitterHandle).Wait();
+            //AndrewYang
             Console.Write("\nPress any key to close console window...");
             Console.ReadKey(true);
         }
@@ -53,24 +57,12 @@ namespace TwitterScraperConsoleApp
             return auth;
         }
 
-        static async Task GetPresidentialCandidateTweets(TwitterContext twitterCtx)
+        static async Task GetPresidentialCandidateTweets(TwitterContext twitterCtx, string twitterHandle)
         {
-            //List<Status> tweets =
-            //    await
-            //    (from tweet in twitterCtx.Status
-            //     where tweet.Type == StatusType.User &&
-            //           tweet.ScreenName == "JoeMayo"
-            //     select tweet)
-            //    .ToListAsync();
-
-            const int MaxTweetsToReturn = 200;
-            const int MaxTotalResults = 100;
+            const int MaxTweetsToReturn = 3200;
 
             // oldest id you already have for this search term
             ulong sinceID = 1;
-
-            // used after the first query to track current session
-            ulong maxID;
 
             var combinedSearchResults = new List<Status>();
 
@@ -78,49 +70,38 @@ namespace TwitterScraperConsoleApp
                 await
                 (from tweet in twitterCtx.Status
                  where tweet.Type == StatusType.User &&
-                       tweet.ScreenName == "JoeMayo" &&
+                       tweet.ScreenName == twitterHandle &&
                        tweet.Count == MaxTweetsToReturn &&
                        tweet.SinceID == sinceID &&
                        tweet.TweetMode == TweetMode.Extended
                  select tweet)
                 .ToListAsync();
 
-            if (tweets != null)
+            if (tweets != null && tweets.Any())
             {
-                combinedSearchResults.AddRange(tweets);
-                ulong previousMaxID = ulong.MaxValue;
-                do
-                {
-                    using(PolitiFactContext db = new PolitiFactContext())
-                    {
-
-                    }
-                    // one less than the newest id you've just queried
-                    maxID = tweets.Min(status => status.StatusID) - 1;
-
-                    Debug.Assert(maxID < previousMaxID);
-                    previousMaxID = maxID;
-
-                    tweets =
-                        await
-                        (from tweet in twitterCtx.Status
-                         where tweet.Type == StatusType.User &&
-                               tweet.ScreenName == "JoeMayo" &&
-                               tweet.Count == MaxTweetsToReturn &&
-                               tweet.MaxID == maxID &&
-                               tweet.SinceID == sinceID &&
-                               tweet.TweetMode == TweetMode.Extended
-                         select tweet)
-                        .ToListAsync();
-
-                    combinedSearchResults.AddRange(tweets);
-
-                } while (tweets.Any() && combinedSearchResults.Count < MaxTotalResults);
-
+                WriteTweetsToDatabase(tweets, twitterHandle);
             }
             else
             {
                 Console.WriteLine("No entries found.");
+            }
+        }
+
+        static void WriteTweetsToDatabase(List<Status> tweets, string twitterHandle)
+        {
+            using (PolitiFactContext db = new PolitiFactContext())
+            {
+                foreach(var tweet in tweets)
+                {
+                    Tweet statusAsTweet = new Tweet
+                    {
+                        Text = tweet.Text,
+                        TwitterUserId = (long)tweet.UserID,
+                        TwitterName = twitterHandle,
+                        PoliticalCandidate = 4
+                    };
+                    db.Tweet.Add(statusAsTweet);
+                }
             }
         }
 
