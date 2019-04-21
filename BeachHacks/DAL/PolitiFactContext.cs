@@ -1,4 +1,5 @@
 ﻿using System;
+using BeachHacks.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
