@@ -1,8 +1,7 @@
 <template>
   <div class="filter">
     <h3></h3>
-    
-    
+
   </div>
 </template>
 

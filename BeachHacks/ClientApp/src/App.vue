@@ -7,8 +7,16 @@
         <a class="pages">|</a>
         <a href="/" class="pages redLetters">ALL CANDIDATES</a>
     </div>
-    <sidebar></sidebar>
     <main>
+      <div class="mainPage">
+        <sidebar></sidebar>
+        <div class="person-list">
+          <presCard v-for="candidate in candidates"
+                    v-bind:name="candidate.name"
+                    v-bind:age="candidate.age"
+                    v-bind:party_name="candidate.partyName"></presCard>
+        </div>
+      </div>
       <router-view></router-view>
     </main>
     
@@ -17,10 +25,31 @@
 
 <script>
 import SideBar from '@/components/SideBar'
+import PresidentialCard from '@/components/PresidentialCard'
 export default {
   name: 'app',
   components: {
+    'presCard': PresidentialCard,
     'sidebar': SideBar
+  },
+  data () {
+    return {
+      candidates: []
+    }
+  },
+  created: function () {
+    // Alias the component instance as `vm`, so that we
+    // can access it inside the promise function
+    var vm = this
+    // Fetch our array of candidates from an API
+    fetch('https://localhost:44381/api/Home/GetPresidentialCandidates')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        vm.candidates = data
+        console.log(vm.candidates)
+      })
   }
 }
 </script>
@@ -69,4 +98,14 @@ a.pages {
   color:red;
 }
 
+.person-list {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: row;
+}
 </style>
