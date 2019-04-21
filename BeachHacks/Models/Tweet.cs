@@ -13,5 +13,7 @@ namespace BeachHacks.Models
         public DateTime? Time { get; set; }
 
         public virtual Presidentialcandidate PoliticalCandidateNavigation { get; set; }
+        public virtual ICollection<Categories> Categories { get; set; }
+        public virtual ICollection<Entities> Entities { get; set; }
     }
 }

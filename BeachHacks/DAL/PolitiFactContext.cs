@@ -33,6 +33,50 @@ namespace BeachHacks.DAL
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
+            modelBuilder.Entity<Categories>(entity =>
+            {
+                entity.HasKey(e => e.CategoryId)
+                    .HasName("categories_pkey");
+
+                entity.ToTable("categories");
+
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+
+                entity.Property(e => e.Confidence)
+                    .HasColumnName("confidence")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.TweetId).HasColumnName("tweet_id");
+
+                entity.HasOne(d => d.Tweet)
+                    .WithMany(p => p.Categories)
+                    .HasForeignKey(d => d.TweetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("categories_tweet_id_fkey");
+            });
+
+            modelBuilder.Entity<Entities>(entity =>
+            {
+                entity.HasKey(e => e.EntityId)
+                    .HasName("entities_pkey");
+
+                entity.ToTable("entities");
+
+                entity.Property(e => e.EntityId).HasColumnName("entity_id");
+
+                entity.Property(e => e.Salience)
+                    .HasColumnName("salience")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.TweetId).HasColumnName("tweet_id");
+
+                entity.HasOne(d => d.Tweet)
+                    .WithMany(p => p.Entities)
+                    .HasForeignKey(d => d.TweetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("entities_tweet_id_fkey");
+            });
+
             modelBuilder.Entity<Politicalparty>(entity =>
             {
                 entity.ToTable("politicalparty");

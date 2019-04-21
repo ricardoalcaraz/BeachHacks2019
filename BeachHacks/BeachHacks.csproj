@@ -17,4 +17,9 @@
   <ItemGroup>
     <Folder Include="DTO\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Tweet.cs" />
+    <Compile Remove="Politicalparty.cs" />
+    <Compile Remove="Presidentialcandidate.cs" />
+  </ItemGroup>
 </Project>
