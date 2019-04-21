@@ -21,8 +21,9 @@ namespace TwitterScraperConsoleApp
             IAuthorizer authorizer = DoPinOAuth();
             authorizer.AuthorizeAsync().Wait();
             var twitterCtx = new TwitterContext(authorizer);
-            string twitterHandle = "AndrewYang";
-            GetPresidentialCandidateTweets(twitterCtx, twitterHandle).Wait();
+            string twitterHandle = "SenWarren";
+            int presidentialCandidateID = 1;
+            GetPresidentialCandidateTweets(twitterCtx, twitterHandle, presidentialCandidateID).Wait();
             //AndrewYang
             Console.Write("\nPress any key to close console window...");
             Console.ReadKey(true);
@@ -57,13 +58,13 @@ namespace TwitterScraperConsoleApp
             return auth;
         }
 
-        static async Task GetPresidentialCandidateTweets(TwitterContext twitterCtx, string twitterHandle)
+        static async Task GetPresidentialCandidateTweets(TwitterContext twitterCtx, string twitterHandle, int presidentialCandidateID)
         {
-            const int MaxTweetsToReturn = 3200;
-
+            const int MaxTweetsToReturn = 100;
+            const int MaxTotalResults = 3200;
             // oldest id you already have for this search term
             ulong sinceID = 1;
-
+            ulong maxID;
             var combinedSearchResults = new List<Status>();
 
             List<Status> tweets =
@@ -77,31 +78,108 @@ namespace TwitterScraperConsoleApp
                  select tweet)
                 .ToListAsync();
 
-            if (tweets != null && tweets.Any())
+            if (tweets != null)
             {
-                WriteTweetsToDatabase(tweets, twitterHandle);
+                combinedSearchResults.AddRange(tweets);
+                ulong previousMaxID = ulong.MaxValue;
+
+                do
+                {
+                    // one less than the newest id you've just queried
+                    maxID = tweets.Min(status => status.StatusID) - 1;
+
+                    Debug.Assert(maxID < previousMaxID);
+                    previousMaxID = maxID;
+
+                    tweets =
+                        await
+                        (from tweet in twitterCtx.Status
+                         where tweet.Type == StatusType.User &&
+                               tweet.ScreenName == twitterHandle &&
+                               tweet.Count == MaxTweetsToReturn &&
+                               tweet.MaxID == maxID &&
+                               tweet.SinceID == sinceID &&
+                               tweet.TweetMode == TweetMode.Extended
+                         select tweet)
+                        .ToListAsync();
+
+                    combinedSearchResults.AddRange(tweets);
+
+                } while (tweets.Any() && combinedSearchResults.Count < MaxTotalResults);
+
+                WriteTweetsToDatabase(combinedSearchResults, twitterHandle, presidentialCandidateID);
             }
             else
             {
                 Console.WriteLine("No entries found.");
             }
         }
+        /*
+         *  List<Status> tweets =
+                await
+                (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User &&
+                       tweet.ScreenName == "JoeMayo" &&
+                       tweet.ScreenName == twitterHandle &&
+                       tweet.Count == MaxTweetsToReturn &&
+                       tweet.SinceID == sinceID &&
+                       tweet.TweetMode == TweetMode.Extended
+                 select tweet)
+                .ToListAsync();
+ 
+            if (tweets != null)
+            if (tweets != null && tweets.Any())
+            {
+                combinedSearchResults.AddRange(tweets);
+                ulong previousMaxID = ulong.MaxValue;
+                do
+                {
+                    using(PolitiFactContext db = new PolitiFactContext())
+                    {
 
-        static void WriteTweetsToDatabase(List<Status> tweets, string twitterHandle)
+                    }
+                    // one less than the newest id you've just queried
+                    maxID = tweets.Min(status => status.StatusID) - 1;
+
+                    Debug.Assert(maxID < previousMaxID);
+                    previousMaxID = maxID;
+
+                    tweets =
+                        await
+                        (from tweet in twitterCtx.Status
+                         where tweet.Type == StatusType.User &&
+                               tweet.ScreenName == "JoeMayo" &&
+                               tweet.Count == MaxTweetsToReturn &&
+                               tweet.MaxID == maxID &&
+                               tweet.SinceID == sinceID &&
+                               tweet.TweetMode == TweetMode.Extended
+                         select tweet)
+                        .ToListAsync();
+
+                    combinedSearchResults.AddRange(tweets);
+
+                } while (tweets.Any() && combinedSearchResults.Count < MaxTotalResults);
+          */
+        static void WriteTweetsToDatabase(List<Status> tweets, string twitterHandle, int presidentialCandidateID)
         {
             using (PolitiFactContext db = new PolitiFactContext())
             {
                 foreach(var tweet in tweets)
                 {
+                    long userID = 0;
+                    Int64.TryParse(tweet.User.UserIDResponse, out userID);
                     Tweet statusAsTweet = new Tweet
                     {
-                        Text = tweet.Text,
-                        TwitterUserId = (long)tweet.UserID,
+                        Text = tweet?.FullText ?? "",
+                        TwitterUserId = userID,
                         TwitterName = twitterHandle,
-                        PoliticalCandidate = 4
+                        PoliticalCandidate = presidentialCandidateID,
+                        Time = tweet.CreatedAt
                     };
                     db.Tweet.Add(statusAsTweet);
                 }
+                db.SaveChanges();
+                Console.Write("Saved a total of " + tweets.Count + " tweets to the database for " + twitterHandle);
             }
         }
 

@@ -10,6 +10,7 @@ namespace BeachHacks.Models
         public long TwitterUserId { get; set; }
         public string TwitterName { get; set; }
         public int PoliticalCandidate { get; set; }
+        public DateTime? Time { get; set; }
 
         public virtual Presidentialcandidate PoliticalCandidateNavigation { get; set; }
     }

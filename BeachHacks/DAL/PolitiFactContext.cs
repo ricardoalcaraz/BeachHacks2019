@@ -91,6 +91,8 @@ namespace BeachHacks.DAL
                     .HasColumnName("text")
                     .HasMaxLength(500);
 
+                entity.Property(e => e.Time).HasColumnName("time");
+
                 entity.Property(e => e.TwitterName)
                     .IsRequired()
                     .HasColumnName("twitter_name")
