@@ -71,13 +71,18 @@ export default {
   },
   data () {
     return {
-      // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Average Sentiment', 'Average Magnitude']
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
       ],
+      // Array will be automatically processed with visualization.arrayToDataTable function
       chartOptions: {
         chart: {
-          title: 'Sentience Score'
+          title: 'Sentience Score',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017'
         }
       },
       averageSentiment: 0,
@@ -99,8 +104,8 @@ export default {
       })
       .then(function (data) {
         console.log(data)
-        var chartEntry = [data.avgSentimentScore * 1000, data.avgMagnitude * 1000]
-        vm.chartData.push(chartEntry)
+        //var chartEntry = [data.avgSentimentScore * 1000, data.avgMagnitude * 1000]
+        //vm.chartData.push(chartEntry)
         vm.averageSentiment = data.avgSentimentScore
         vm.averageMag = data.avgMagnitude
         vm.tweetCount = data.count
