@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using BeachHacks.DAL;
 using BeachHacks.DTO;
+using BeachHacks.Models;
 using Microsoft.AspNetCore.Mvc;
 using Google.Cloud.Language.V1;
 
@@ -45,6 +47,26 @@ namespace BeachHacks.Controllers
             }
 
             return Ok(data);
+        }
+
+        [HttpGet("{handle}")]
+        public ActionResult<IEnumerable<string>> Get(string handle)
+        {
+            TestDTO data;
+            var client = LanguageServiceClient.Create();
+            using (PolitiFactContext db = new PolitiFactContext())
+            {
+                var query = db.Tweet.Where(a => a.TwitterName == handle);
+
+                List<Tweet> tweets = new List<Tweet>();
+                foreach (Tweet t in query) {
+                    tweets.Add(t);
+                }
+
+                return Ok(tweets);
+            }
+
+            return Ok();
         }
     }
 }
