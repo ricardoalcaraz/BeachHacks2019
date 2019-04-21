@@ -20,7 +20,7 @@ export default {
     submit () {
       Axios({
       method: 'GET',
-      url: 'https://localhost:5001/api/Test/',
+      url: 'https://localhost:44381/api/Test/',
       headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8080',
             'Access-Control-Allow-Credentials': true,

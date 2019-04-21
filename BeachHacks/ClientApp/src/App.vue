@@ -9,6 +9,10 @@
     </div>
     <sidebar></sidebar>
     <main>
+      <presCard v-for="candidate in candidates"
+                v-bind:name="candidate.name"
+                v-bind:age="candidate.age"
+                v-bind:party_name="candidate.partyName"></presCard>
       <router-view></router-view>
     </main>
     
@@ -17,10 +21,31 @@
 
 <script>
 import SideBar from '@/components/SideBar'
+import PresidentialCard from '@/components/PresidentialCard'
 export default {
   name: 'app',
   components: {
+    'presCard': PresidentialCard,
     'sidebar': SideBar
+  },
+  data () {
+    return {
+      candidates: []
+    }
+  },
+  created: function () {
+    // Alias the component instance as `vm`, so that we
+    // can access it inside the promise function
+    var vm = this
+    // Fetch our array of candidates from an API
+    fetch('https://localhost:44381/api/Home/GetPresidentialCandidates')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        vm.candidates = data
+        console.log(vm.candidates)
+      })
   }
 }
 </script>
