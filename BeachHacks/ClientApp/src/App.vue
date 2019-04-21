@@ -10,13 +10,17 @@
     <main>
       <router-view></router-view>
     </main>
+    
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'sidebar': SideBar
+  }
 }
 </script>
 

@@ -1,15 +1,13 @@
 <template>
-  <div class="filter">
-    <h3></h3>
-    
-    
+  <div class="sidebar">
+    <h2>giajio</h2>
   </div>
 </template>
 
 <script>
 /* eslint-ignore */
 export default {
-  name: 'filter',
+  name: 'sidebar',
   data () {
     return {
       /* msg: 'Welcome to Your Vue.js PWA' */
