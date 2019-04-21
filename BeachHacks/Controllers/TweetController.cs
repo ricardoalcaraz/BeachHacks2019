@@ -16,7 +16,7 @@ namespace BeachHacks.Controllers
     [ApiController]
     public class TweetController : Controller
     {
-        private const int DAYS_BACK = -10;
+        // private const int DAYS_BACK = -10;
 
         /*
          *        
@@ -29,46 +29,30 @@ namespace BeachHacks.Controllers
                 using (PolitiFactContext db = new PolitiFactContext())
                 {
                     // Query tweets given amount of days back
-                    DateTime dt = DateTime.Now.AddDays(DAYS_BACK);
-                    var query = db.Tweet.Where(a => a.TwitterName == handle && a.Time >= dt).ToList();
+                    var query = (from entity in db.Entities
+                                join tweet in db.Tweet on entity.TweetId equals tweet.TweetId
+                                where tweet.TwitterName == handle
+                                select new { entity, tweet })
+                                .ToList();
 
-                    List<List<EntityDTO>> analyses = new List<List<EntityDTO>>();
-                    AnalyticsEngine ae = new AnalyticsEngine();
-
-
-                    // Analyze per Tweet
-                    foreach (Tweet t in query)
+                    List<AnalysisDTO> data = new List<AnalysisDTO>();
+                         
+                    foreach (var q in query)
                     {
-                        var client = LanguageServiceClient.Create();
-                        var eresponse = client.AnalyzeEntitySentiment(new Document()
+                        Console.WriteLine(q);
+
+                        AnalysisDTO a = new AnalysisDTO
                         {
-                            Content = t.Text,
-                            Type = Document.Types.Type.PlainText
-                        });
+                            DateOnly = q.tweet.Time.Value.Date,
+                            Sentiment_Score = q.entity.SentimentScore,
+                            Sentiment_Mag = q.entity.SentimentMag
+                        };
 
-                        analyses.Add(ae.getAnalysis(eresponse.Entities));
-
-                        //if (ae.isTokenSufficient(t.Text))
-                        //{
-                        //    var cresponse = client.ClassifyText(new Document()
-                        //    {
-                        //        Content = t.Text,
-                        //        Type = Document.Types.Type.PlainText
-                        //    });
-
-                        //    analyses.Add(ae.getAnalysis(eresponse.Entities, cresponse.Categories));
-                        //}
-                        //else
-                        //{
-                        //    analyses.Add(ae.getAnalysis(eresponse.Entities, Enumerable.Empty<ClassificationCategory>()));
-                        //}
-
-
-
-                        WriteDataToDatabase(db, analyses.Last(), t);
+                        data.Add(a);
                     }
 
-                    return Ok(analyses);
+
+                    return Ok(data);
                 }
             } catch (Exception e)
             {
