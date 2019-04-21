@@ -21,7 +21,7 @@ export default {
     submit () {
       Axios({
       method: 'GET',
-      url: 'https://localhost:5001/api/Test/'+this.$data.handle,
+      url: 'https://localhost:5001/api/Tweet/'+this.$data.handle,
       headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8080',
             'Access-Control-Allow-Credentials': true,
