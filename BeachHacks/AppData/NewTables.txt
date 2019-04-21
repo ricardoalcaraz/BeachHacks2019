@@ -1,0 +1,12 @@
+CREATE TABLE Entities(
+	entity_ID serial PRIMARY KEY NOT NULL,
+	tweet_ID int NOT NULL REFERENCES tweet(tweet_id),
+	salience decimal NOT NULL
+);
+
+CREATE TABLE Categories
+(
+	category_ID serial PRIMARY KEY NOT NULL,
+	tweet_ID int NOT NULL REFERENCES tweet(tweet_id),
+	confidence decimal NOT NULL
+);
