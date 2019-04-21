@@ -11,7 +11,11 @@
           </span>
       <b-collapse :id="'collapse' + id" class="mt-2">
         <b-card>
-          <p class="card-text">Collapse contents Here</p>
+          <p class="card-text">
+            <GChart type="ColumnChart"
+                    :data="chartData"
+                    :options="chartOptions" />
+          </p>
         </b-card>
       </b-collapse>
     </p>
@@ -20,6 +24,8 @@
 
 
 <script>
+import { GChart } from 'vue-google-charts'
+
 export default {
   name: 'PresidentialCard',
   props: ['name', 'age', 'party_name', 'location', 'id'],
@@ -28,6 +34,27 @@ export default {
       var images = require.context('../assets/', false, /\.jpg$/)
       return images('./' + person.replace(/ /g, '') + '.jpg')
     }
+  },
+  data () {
+    return {
+      // Array will be automatically processed with visualization.arrayToDataTable function
+      chartData: [
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
+      ],
+      chartOptions: {
+        chart: {
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017'
+        }
+      }
+    }
+  },
+  components: {
+    GChart
   }
 }
 </script>
