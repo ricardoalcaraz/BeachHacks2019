@@ -35,22 +35,18 @@ namespace BeachHacks.Controllers
                                 select new { entity, tweet })
                                 .ToList();
 
-                    List<AnalysisDTO> data = new List<AnalysisDTO>();
-                         
-                    foreach (var q in query)
+                    //List<AnalysisDTO> data = new List<AnalysisDTO>();
+                    List<List<object>> data = new List<List<object>>();
+
+                    //var returnList = query.Select(a => new { a.tweet.Time.Value.Date, a.entity.SentimentMag, a.entity.SentimentScore })
+                    //.ToList();
+
+                    data.Add(new List<object> { "Date", "Mag", "Score" });
+
+                    foreach (var a in query)
                     {
-                        Console.WriteLine(q);
-
-                        AnalysisDTO a = new AnalysisDTO
-                        {
-                            DateOnly = q.tweet.Time.Value.Date,
-                            Sentiment_Score = q.entity.SentimentScore,
-                            Sentiment_Mag = q.entity.SentimentMag
-                        };
-
-                        data.Add(a);
+                        data.Add(new List<object> { a.tweet.Time.Value.Date, a.entity.SentimentMag, a.entity.SentimentScore });
                     }
-
 
                     return Ok(data);
                 }

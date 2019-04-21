@@ -2,13 +2,13 @@
   <div class="card">
     <p>
       <img class="headshot" :src="getImgUrl(name)" align="left">
-      <b-button v-b-toggle="'collapse' + id" variant="primary"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
-      <br />
-      <span class="cardText">
-        AGE: {{ age }}
-        |
-        POLITICAL AFFILIATION: {{ party_name }}
-      </span>
+      <b-button v-b-toggle="'collapse' + id" variant="primary" v-on:click="submit"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
+        <br />
+          <span class="cardText">
+            AGE: {{ age }} 
+            |
+            POLITICAL AFFILIATION: {{ party_name }}
+          </span>
       <b-collapse :id="'collapse' + id" class="mt-2">
         <b-card>
     <p class="card-text">
@@ -29,7 +29,9 @@
 
 
 <script>
+/* eslint-disable */
 import { GChart } from 'vue-google-charts'
+import Axios from 'axios'
 
 export default {
   name: 'PresidentialCard',
@@ -41,6 +43,30 @@ export default {
     },
     getPR () {
       return this.id
+    },
+    getHandle () {
+      return this.twitterHandle
+    },
+    submit () {
+      Axios({
+        method: 'GET',
+        url: 'https://localhost:5001/api/Tweet/'+this.getHandle(),
+        headers: {
+              'Access-Control-Allow-Origin': 'http://localhost:8080',
+              'Access-Control-Allow-Credentials': true,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': 'null',
+              // 'X-Requested-With': 'XMLHttpRequest'
+            },
+        })
+          .then(response => {
+            console.log(response)
+            this.$data.chartData = response.data
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
     }
   },
   data () {
@@ -67,7 +93,7 @@ export default {
     // can access it inside the promise function
     var vm = this
     // Fetch our array of candidates from an API
-    fetch('https://localhost:44381/api/Home/GetSentimentScore/' + this.getPR())
+    fetch('https://localhost:5001/api/Home/GetSentimentScore/' + this.getPR())
       .then(function (response) {
         return response.json()
       })
