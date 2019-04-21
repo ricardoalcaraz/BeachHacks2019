@@ -74,7 +74,9 @@ namespace BeachHacks.Controllers
             using (PolitiFactContext db = new PolitiFactContext())
             {
                 DateTime dt = DateTime.Now.AddDays(DAYS_BACK);
-                var query = db.Tweet.Where(a => a.TwitterName == handle && a.Time >= dt);
+                var query = db.Tweet
+                    .Where(a => a.TwitterName == handle && a.Time >= dt)
+                    .ToList();
 
                 //List<List<EntityDTO>> data = new List<List<EntityDTO>>();
 
@@ -104,14 +106,29 @@ namespace BeachHacks.Controllers
                     {
                         analyses.Add(ae.getAnalysis(eresponse.Entities, Enumerable.Empty<ClassificationCategory>()));
                     }
+
                 }
 
                 return Ok(analyses);
             }
 
-            return Ok();
         }
 
+        //The following process is gonna be really fucking slow so never repeat this shit
+        public void WriteDataToDatabase(PolitiFactContext db, List<AnalysisDTO> analysis)
+        {
+            foreach(var entry in analysis)
+            {
+                foreach(CategoryDTO category in entry.Categories)
+                {
+
+                }
+                foreach(EntityDTO entity in entry.Entities)
+                {
+
+                }
+            }
+        }
         //[HttpGet("{handle}")]
         //public ActionResult<IEnumerable<string>> Get(string handle)
         //{
