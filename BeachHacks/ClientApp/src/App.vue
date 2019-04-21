@@ -3,9 +3,9 @@
     <div class="header">
         <span class="title">2020 VISION</span>
         <img src="./assets/AmericanFlag.png" >
-        <a href="/" class="pages">COMPARE</a>
+        <a href="/" class="pages redLetters">COMPARE</a>
         <a class="pages">|</a>
-        <a href="/" class="pages">ALL CANDIDATES</a>
+        <a href="/" class="pages redLetters">ALL CANDIDATES</a>
     </div>
     <sidebar></sidebar>
     <main>
@@ -50,8 +50,7 @@ span.title {
   font-weight: lighter;
   padding-right: 5px;
   font-family: Tahoma, Geneva, sans-serif;
-  letter-spacing: .33em;
-  line-height: 1;
+  letter-spacing: .34em;
   font-size: 24px;
 }
 
@@ -64,6 +63,10 @@ a.pages {
   float:right;
   padding-top: 10px;
   padding-right: 30px;
+}
+
+.pages.redLetters:hover{
+  color:red;
 }
 
 </style>
