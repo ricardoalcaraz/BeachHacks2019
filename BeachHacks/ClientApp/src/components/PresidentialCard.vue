@@ -29,7 +29,7 @@ import { GChart } from 'vue-google-charts'
 
 export default {
   name: 'PresidentialCard',
-  props: ['name', 'age', 'party_name', 'location', 'id'],
+  props: ['name', 'age', 'party_name', 'location', 'id', 'twitterHandle'],
   methods: {
     getImgUrl (person) {
       var images = require.context('../assets/', false, /\.jpg$/)

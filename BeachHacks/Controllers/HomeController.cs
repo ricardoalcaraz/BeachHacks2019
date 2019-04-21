@@ -37,7 +37,8 @@ namespace BeachHacks.Controllers
                         p.PoliticalParty.PartyName,
                         p.State,
                         p.UserId,
-                        location = "../assets/" + p.Name.Replace(" ", "") + ".jpg"
+                        location = "../assets/" + p.Name.Replace(" ", "") + ".jpg",
+                        twitterHandle = db.Tweet.FirstOrDefault(a => a.PoliticalCandidate == p.UserId).TwitterName
                     })
                     .ToList();
 
