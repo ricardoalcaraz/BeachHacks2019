@@ -18,7 +18,7 @@
       Average Magnitude = {{averageMag}}
     </p>
     Total Tweets Analyzed = {{tweetCount}}
-    <GChart type="ColumnChart"
+    <GChart v-if="chartData" type="ColumnChart"
             :data="chartData"
             :options="chartOptions" />
     </b-card>
@@ -72,11 +72,6 @@ export default {
   data () {
     return {
       chartData: [
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200],
-        ['2015', 1170, 460, 250],
-        ['2016', 660, 1120, 300],
-        ['2017', 1030, 540, 350]
       ],
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartOptions: {
