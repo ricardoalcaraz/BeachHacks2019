@@ -42,7 +42,24 @@ namespace BeachHacks.Controllers
 
                 return Json(candidates);
             }
+        }
 
+        [HttpGet]
+        [Route("GetSentimentScore/{id}")]
+        public JsonResult GetAverageSentimentScore(int id)
+        {
+            JsonResult returnVal;
+            using (PolitiFactContext db = new PolitiFactContext())
+            {
+                var score = from entity in db.Entities
+                    join tweet in db.Tweet on entity.TweetId equals tweet.TweetId
+                    where tweet.PoliticalCandidate == id
+                            select entity;
+                var avgSentimentScore = score.Average(a => a.SentimentScore);
+                returnVal = Json(avgSentimentScore);
+            }
+
+            return returnVal;
         }
 
         [HttpGet]
