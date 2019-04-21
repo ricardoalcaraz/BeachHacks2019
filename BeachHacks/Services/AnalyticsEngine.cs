@@ -34,7 +34,7 @@ namespace BeachHacks.Services
                 return false;
         }
 
-        public AnalysisDTO getAnalysis(IEnumerable<Entity> entities, IEnumerable<ClassificationCategory> categories)
+        public AnalysisDTO getAnalysis(IEnumerable<Entity> entities)
         {
             List<EntityDTO> eresponse = new List<EntityDTO>();
             foreach (Entity e in entities)
@@ -49,20 +49,20 @@ namespace BeachHacks.Services
                 eresponse.Add(entityData);
             }
 
-            List<CategoryDTO> cresponse = new List<CategoryDTO>();
-            if (!categories.Any())
-            {
-                foreach (ClassificationCategory c in categories)
-                {
-                    CategoryDTO categoryData = new CategoryDTO
-                    {
-                        Category = c.Name,
-                        Confidence = c.Confidence
-                    };
+            //List<CategoryDTO> cresponse = new List<CategoryDTO>();
+            //if (!categories.Any())
+            //{
+            //    foreach (ClassificationCategory c in categories)
+            //    {
+            //        CategoryDTO categoryData = new CategoryDTO
+            //        {
+            //            Category = c.Name,
+            //            Confidence = c.Confidence
+            //        };
 
-                    cresponse.Add(categoryData);
-                }
-            }
+            //        cresponse.Add(categoryData);
+            //    }
+            //}
 
 
             AnalysisDTO analysis = new AnalysisDTO

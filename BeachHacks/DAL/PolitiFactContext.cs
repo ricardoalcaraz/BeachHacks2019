@@ -19,6 +19,8 @@ namespace BeachHacks.DAL
         public virtual DbSet<Politicalparty> Politicalparty { get; set; }
         public virtual DbSet<Presidentialcandidate> Presidentialcandidate { get; set; }
         public virtual DbSet<Tweet> Tweet { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Entities> Entities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

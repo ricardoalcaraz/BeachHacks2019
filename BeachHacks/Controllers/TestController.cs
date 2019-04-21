@@ -19,9 +19,9 @@ namespace BeachHacks.Controllers
         private const int DAYS_BACK = -10;
 
         // GET: /<controller>/
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
+
+        //public ActionResult<IEnumerable<string>> Get()
+        //{
             //TestDTO response;
             //using (PolitiFactContext db = new PolitiFactContext())
             //{
@@ -33,24 +33,24 @@ namespace BeachHacks.Controllers
 
             //return Ok(response);
 
-            TestDTO data;
-            var client = LanguageServiceClient.Create();
-            using (PolitiFactContext db = new PolitiFactContext())
-            {
-                string post = db.Tweet.First().Text;
-                var response = client.AnalyzeSentiment(new Document()
-                {
-                    Content = post,
-                    Type = Document.Types.Type.PlainText
-                });
+            //TestDTO data;
+            //var client = LanguageServiceClient.Create();
+            //using (PolitiFactContext db = new PolitiFactContext())
+            //{
+            //    string post = db.Tweet.First().Text;
+            //    var response = client.AnalyzeSentiment(new Document()
+            //    {
+            //        Content = post,
+            //        Type = Document.Types.Type.PlainText
+            //    });
 
-                var sentiment = response.DocumentSentiment;
+            //    var sentiment = response.DocumentSentiment;
 
-                data = new TestDTO { Content = post, Score = sentiment.Score , Magnitude = sentiment.Magnitude };
-            }
+            //    data = new TestDTO { Content = post, Score = sentiment.Score , Magnitude = sentiment.Magnitude };
+            //}
 
-            return Ok(data);
-        }
+            //return Ok(data);
+        //}
 
         [HttpGet("{handle}")]
         public ActionResult<IEnumerable<string>> Get(string handle)
@@ -114,21 +114,7 @@ namespace BeachHacks.Controllers
 
         }
 
-        //The following process is gonna be really fucking slow so never repeat this shit
-        public void WriteDataToDatabase(PolitiFactContext db, List<AnalysisDTO> analysis)
-        {
-            foreach(var entry in analysis)
-            {
-                foreach(CategoryDTO category in entry.Categories)
-                {
 
-                }
-                foreach(EntityDTO entity in entry.Entities)
-                {
-
-                }
-            }
-        }
         //[HttpGet("{handle}")]
         //public ActionResult<IEnumerable<string>> Get(string handle)
         //{

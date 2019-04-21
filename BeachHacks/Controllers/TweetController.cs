@@ -30,7 +30,7 @@ namespace BeachHacks.Controllers
                 {
                     // Query tweets given amount of days back
                     DateTime dt = DateTime.Now.AddDays(DAYS_BACK);
-                    var query = db.Tweet.Where(a => a.TwitterName == handle && a.Time >= dt);
+                    var query = db.Tweet.Where(a => a.TwitterName == handle && a.Time >= dt).ToList();
 
                     List<AnalysisDTO> analyses = new List<AnalysisDTO>();
                     AnalyticsEngine ae = new AnalyticsEngine();
@@ -60,6 +60,8 @@ namespace BeachHacks.Controllers
                         {
                             analyses.Add(ae.getAnalysis(eresponse.Entities, Enumerable.Empty<ClassificationCategory>()));
                         }
+
+                        WriteDataToDatabase(db, analyses.Last(), t);
                     }
 
                     return Ok(analyses);
@@ -67,6 +69,38 @@ namespace BeachHacks.Controllers
             } catch (Exception e)
             {
                 return BadRequest(e);
+            }
+        }
+
+        //The following process is gonna be really fucking slow so never repeat this shit
+        private void WriteDataToDatabase(PolitiFactContext db, AnalysisDTO entry, Tweet tweet)
+        {
+            try
+            {
+                foreach (CategoryDTO category in entry.Categories)
+                {
+                    var categoryEntry = new Categories
+                    {
+                        TweetId = tweet.TweetId,
+                        Confidence = (decimal)category.Confidence
+                    };
+                    db.Categories.Add(categoryEntry);
+                }
+                foreach (EntityDTO entity in entry.Entities)
+                {
+                    var entityEntry = new Entities
+                    {
+                        TweetId = tweet.TweetId,
+                        Salience = (decimal)entity.Salience,
+                        Type = entity.Type.ToString()
+                    };
+                    db.Entities.Add(entityEntry);
+                }
+                db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }
