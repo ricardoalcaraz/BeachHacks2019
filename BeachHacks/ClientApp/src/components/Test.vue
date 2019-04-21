@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <button v-on:click="submit">Test</button>
+    <h1>Test</h1>
+    <button v-on:click="submit">{{ label }}</button>
   </div>
 </template>
 
@@ -13,14 +13,15 @@ export default {
   name: 'test',
   data () {
     return {
-      msg: 'Test'
+      label: 'Get @AndrewYang Tweets',
+      handle: 'AndrewYang'
     }
   },
   methods: {
     submit () {
       Axios({
       method: 'GET',
-      url: 'https://localhost:44381/api/Test/',
+      url: 'https://localhost:5001/api/Test/'+this.$data.handle,
       headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8080',
             'Access-Control-Allow-Credentials': true,
@@ -32,6 +33,9 @@ export default {
       })
         .then(response => {
           console.log(response)
+        })
+        .catch(error => {
+          console.log(error.response)
         })
     }
   }
