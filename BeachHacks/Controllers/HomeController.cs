@@ -36,5 +36,25 @@ namespace BeachHacks.Controllers
             }
 
         }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [Route("CandidateInfo/{id}")]
+        [HttpGet]
+        public ActionResult CandidateInfo(string name)
+        {
+            ActionResult returnVal;
+            using (PolitiFactContext db = new PolitiFactContext())
+            {
+                var candidate = db.Presidentialcandidate.FirstOrDefault(p => p.Name == name);
+                returnVal = View(candidate);
+                ViewBag.Candidate = candidate;
+            }
+            return returnVal;
+        }
     }
 }

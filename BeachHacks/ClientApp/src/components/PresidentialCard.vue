@@ -2,7 +2,7 @@
   <div class="card">
     <p>
       <img class="headshot" src="../assets/ElizabethWarrenProfile.jpg" align="left">
-      <span class="cardTitle">{{ name.toUpperCase() }}</span>
+      <a :href="'https://localhost:44381/api/Home/CandidateInfo/' + name" class="cardTitle">{{ name.toUpperCase() }}</a>
       <br />
       <span class="cardText">
         AGE: {{ age }}
