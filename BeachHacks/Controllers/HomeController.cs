@@ -35,6 +35,7 @@ namespace BeachHacks.Controllers
                         p.Age,
                         p.PoliticalParty.PartyName,
                         p.State,
+                        p.UserId,
                         location = "../assets/" + p.Name.Replace(" ", "") + ".jpg"
                     })
                     .ToList();

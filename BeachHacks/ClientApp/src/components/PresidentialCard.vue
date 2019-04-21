@@ -1,22 +1,15 @@
 <template>
   <div class="card">
     <p>
-      <img class="headshot" src="../assets/ElizabethWarrenProfile.jpg" align="left">
-      <a :href="'https://localhost:44381/api/Home/CandidateInfo/' + name" class="cardTitle">{{ name.toUpperCase() }}</a>
-      <br />
-      <span class="cardText">
-        AGE: {{ age }}
-        POLITICAL AFFILIATION: {{ party_name }}
-      </span>
-      <img class="headshot" src="../assets/ElizabethWarren.jpg" align="left">
-      <b-button v-b-toggle.collapse-1 variant="primary"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
+      <img class="headshot" :src="getImgUrl(name)" align="left">
+      <b-button v-b-toggle="'collapse' + id" variant="primary"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
         <br />
           <span class="cardText">
             AGE: {{ age }} 
             |
             POLITICAL AFFILIATION: {{ party_name }}
           </span>
-      <b-collapse id="collapse-1" class="mt-2">
+      <b-collapse :id="'collapse' + id" class="mt-2">
         <b-card>
           <p class="card-text">Collapse contents Here</p>
         </b-card>
@@ -29,7 +22,13 @@
 <script>
 export default {
   name: 'PresidentialCard',
-  props: ['name', 'age', 'party_name', 'location']
+  props: ['name', 'age', 'party_name', 'location', 'id'],
+  methods: {
+    getImgUrl (person) {
+      var images = require.context('../assets/', false, /\.jpg$/)
+      return images('./' + person.replace(/ /g, '') + '.jpg')
+    }
+  }
 }
 </script>
 

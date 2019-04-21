@@ -15,7 +15,8 @@
                     v-bind:name="candidate.name"
                     v-bind:age="candidate.age"
                     v-bind:party_name="candidate.partyName"
-                    v-bind:location="candidate.location"></presCard>
+                    v-bind:location="candidate.location"
+                    v-bind:id="candidate.userId"></presCard>
         </div>
       </div>
       <router-view></router-view>
