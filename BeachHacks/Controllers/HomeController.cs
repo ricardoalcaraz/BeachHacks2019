@@ -29,7 +29,14 @@ namespace BeachHacks.Controllers
             {
                 var candidates = db.Presidentialcandidate
                     .Include(p => p.PoliticalParty)
-                    .Select(p => new { p.Name, p.Age, p.PoliticalParty.PartyName, p.State})
+                    .Select(p =>
+                    new {
+                        p.Name,
+                        p.Age,
+                        p.PoliticalParty.PartyName,
+                        p.State,
+                        location = "../assets/" + p.Name.Replace(" ", "") + ".jpg"
+                    })
                     .ToList();
 
                 return Json(candidates);
