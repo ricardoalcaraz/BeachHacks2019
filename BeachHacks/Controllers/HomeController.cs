@@ -14,11 +14,17 @@ namespace BeachHacks.Controllers
     [ApiController]
     public class HomeController : Controller
     {
+        Dictionary<int, string> CandidateImages = new Dictionary<int, string>();
+
+        public HomeController()
+        {
+            CandidateImages.Add(1, "..\\ClientApp\\src\\assets\\ElizabethWarrenProfile.jpg");
+        }
+
         [HttpGet]
         [Route("GetPresidentialCandidates")]
         public JsonResult GetPresidentialCandidates()
         {
-
             using (PolitiFactContext db = new PolitiFactContext())
             {
                 var candidates = db.Presidentialcandidate

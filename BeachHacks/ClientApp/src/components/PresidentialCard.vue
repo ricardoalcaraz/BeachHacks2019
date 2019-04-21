@@ -1,11 +1,14 @@
 <template>
   <div class="card">
-    <h2 class="cardTitle">{{ name.toUpperCase() }}</h2>
     <p>
-      AGE: {{ age }}
-      POLITICAL AFFILIATION: {{ party_name }}
+      <img class="headshot" src="../assets/ElizabethWarrenProfile.jpg" align="left">
+      <span class="cardTitle">{{ name.toUpperCase() }}</span>
+      <br />
+      <span class="cardText">
+        AGE: {{ age }}
+        POLITICAL AFFILIATION: {{ party_name }}
+      </span>
     </p>
-    <hr />
   </div>
 </template>
 
@@ -21,6 +24,7 @@ export default {
     margin: 8px;
     padding: 10px;
     border: none;
+    flex: none !important;
     /*border: 1px solid black;*/
     /*border-radius: 10px;*/
   }
@@ -32,11 +36,21 @@ export default {
   .cardTitle {
     font-weight: lighter;
     padding-right: 5px;
+    margin-left: 15px;
     font-family: Tahoma, Geneva, sans-serif;
     font-size: 20px;
   }
 
   .cardTitle:hover {
     color: red;
+  }
+
+  .cardText {
+    margin-left: 15px;
+  }
+
+  .headshot {
+    width: 15%;
+    float: left;
   }
 </style>
