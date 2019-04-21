@@ -83,13 +83,18 @@ namespace BeachHacks.Controllers
             {
                 foreach(var entry in analysis)
                 {
+                    if(!db.Entities.Any(a => a.TweetId == tweet.TweetId))
+                    {
                         var entityEntry = new Entities
                         {
                             TweetId = tweet.TweetId,
                             Salience = (decimal)entry.Salience,
+                            SentimentMag = entry.Sentiment_Mag,
+                            SentimentScore = entry.Sentiment_Score,
                             Type = entry.Type.ToString()
                         };
                         db.Entities.Add(entityEntry);
+                    }
                 }
                 db.SaveChanges();
             }

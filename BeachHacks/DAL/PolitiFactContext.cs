@@ -76,6 +76,10 @@ namespace BeachHacks.DAL
 
                 entity.Property(e => e.TweetId).HasColumnName("tweet_id");
 
+                entity.Property(e => e.Type)
+                .HasColumnName("type")
+                .HasMaxLength(100);
+
                 entity.HasOne(d => d.Tweet)
                     .WithMany(p => p.Entities)
                     .HasForeignKey(d => d.TweetId)

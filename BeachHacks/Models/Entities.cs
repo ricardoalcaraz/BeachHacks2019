@@ -10,7 +10,7 @@ namespace BeachHacks.Models
         public decimal Salience { get; set; }
         public double SentimentScore { get; set; }
         public double SentimentMag { get; set; }
-
+        public string Type { get; set; }
         public virtual Tweet Tweet { get; set; }
     }
 }
