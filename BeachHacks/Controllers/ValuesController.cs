@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BeachHacks.DAL;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeachHacks.Controllers
@@ -14,6 +15,11 @@ namespace BeachHacks.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            using(PolitiFactContext db = new PolitiFactContext())
+            {
+                var democrat = db.Politicalparty.First();
+                var presidentialCandidate = db.Presidentialcandidate.First();
+            }
             return new string[] { "value1", "value2" };
         }
 
