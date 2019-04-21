@@ -7,6 +7,7 @@
         <a class="pages">|</a>
         <a href="/" class="pages">ALL CANDIDATES</a>
     </div>
+    <sidebar></sidebar>
     <main>
       <router-view></router-view>
     </main>
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-
+import SideBar from '@/components/SideBar'
 export default {
   name: 'app',
   components: {
