@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeachHacks", "BeachHacks\BeachHacks.csproj", "{3AFDF3FE-82FA-4CF3-8239-80E2932BF4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterScraperConsoleApp", "TwitterScraperConsoleApp\TwitterScraperConsoleApp.csproj", "{80B726D7-7A60-4E85-965E-002F06685A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterScraperConsoleApp", "TwitterScraperConsoleApp\TwitterScraperConsoleApp.csproj", "{80B726D7-7A60-4E85-965E-002F06685A16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

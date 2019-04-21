@@ -8,14 +8,28 @@
         AGE: {{ age }}
         POLITICAL AFFILIATION: {{ party_name }}
       </span>
+      <img class="headshot" src="../assets/ElizabethWarren.jpg" align="left">
+      <b-button v-b-toggle.collapse-1 variant="primary"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
+        <br />
+          <span class="cardText">
+            AGE: {{ age }} 
+            |
+            POLITICAL AFFILIATION: {{ party_name }}
+          </span>
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card>
+          <p class="card-text">Collapse contents Here</p>
+        </b-card>
+      </b-collapse>
     </p>
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'PresidentialCard',
-  props: ['name', 'age', 'party_name']
+  props: ['name', 'age', 'party_name', 'location']
 }
 </script>
 
