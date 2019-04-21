@@ -1,0 +1,14 @@
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\bin\Debug\netcoreapp2.2\BeachHacks.deps.json
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\bin\Debug\netcoreapp2.2\BeachHacks.runtimeconfig.json
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\bin\Debug\netcoreapp2.2\BeachHacks.runtimeconfig.dev.json
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\bin\Debug\netcoreapp2.2\BeachHacks.dll
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\bin\Debug\netcoreapp2.2\BeachHacks.pdb
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.csprojAssemblyReference.cache
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.csproj.CoreCompileInputs.cache
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.RazorAssemblyInfo.cache
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.RazorAssemblyInfo.cs
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.AssemblyInfoInputs.cache
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.AssemblyInfo.cs
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.RazorTargetAssemblyInfo.cache
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.dll
+C:\Users\ralca\OneDrive\Documents\BeachHacks2019\BeachHacks\obj\Debug\netcoreapp2.2\BeachHacks.pdb
