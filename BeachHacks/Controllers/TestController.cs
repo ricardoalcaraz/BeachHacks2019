@@ -3,7 +3,7 @@ using System.Linq;
 using BeachHacks.DAL;
 using BeachHacks.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Google.Cloud.Language.V1;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,16 +17,34 @@ namespace BeachHacks.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            TestDTO response;
+            //TestDTO response;
+            //using (PolitiFactContext db = new PolitiFactContext())
+            //{
+            //    var democrat = db.Politicalparty.First();
+            //    var presidentialCandidate = db.Presidentialcandidate.First();
+
+            //    response = new TestDTO { Party = democrat.PartyName, Candidate = presidentialCandidate.Name };
+            //}
+
+            //return Ok(response);
+
+            TestDTO data;
+            var client = LanguageServiceClient.Create();
             using (PolitiFactContext db = new PolitiFactContext())
             {
-                var democrat = db.Politicalparty.First();
-                var presidentialCandidate = db.Presidentialcandidate.First();
+                string post = db.Tweet.First().Text;
+                var response = client.AnalyzeSentiment(new Document()
+                {
+                    Content = post,
+                    Type = Document.Types.Type.PlainText
+                });
 
-                response = new TestDTO { Party = democrat.PartyName, Candidate = presidentialCandidate.Name };
+                var sentiment = response.DocumentSentiment;
+
+                data = new TestDTO { Content = post, Score = sentiment.Score , Magnitude = sentiment.Magnitude };
             }
 
-            return Ok(response);
+            return Ok(data);
         }
     }
 }
