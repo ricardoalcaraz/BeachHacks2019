@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar">
-    <h2>giajio</h2>
+    <p>STATUS</p>
+    <p>STATUS</p>
   </div>
 </template>
 
