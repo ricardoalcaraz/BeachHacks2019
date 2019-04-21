@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <header>
-      <span>Vue.js PWA</span>
-    </header>
+    <div class="header">
+        <span class="title">2020 VISION</span>
+        <img src="./assets/AmericanFlag.png" >
+        <a href="/" class="pages">COMPARE</a>
+        <a class="pages">|</a>
+        <a href="/" class="pages">ALL CANDIDATES</a>
+    </div>
     <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'app'
 }
@@ -22,33 +26,39 @@ body {
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
 
-main {
-  text-align: center;
-  margin-top: 40px;
+img {
+  width: 33px;
 }
 
-header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
+div.header {
+  padding-top: 20px;
+  padding-left: 30px;
+  
 }
 
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
+span.title {
+  font-weight: lighter;
+  padding-right: 5px;
+  font-family: Tahoma, Geneva, sans-serif;
+  letter-spacing: .33em;
   line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
+  font-size: 24px;
 }
+
+a.pages {
+  color:black;
+  font-family: Tahoma, Geneva, sans-serif;
+  letter-spacing: .34em;
+  font-size: 13px;
+  text-decoration: none;
+  float:right;
+  padding-top: 10px;
+  padding-right: 30px;
+}
+
 </style>
