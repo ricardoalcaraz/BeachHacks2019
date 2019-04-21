@@ -8,6 +8,7 @@ using BeachHacks.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace BeachHacks.Controllers
 {
@@ -60,7 +61,11 @@ namespace BeachHacks.Controllers
                         where tweet.PoliticalCandidate == id
                         select entity;
                     var avgSentimentScore = score.Average(a => a.SentimentScore);
-                    returnVal = Json(avgSentimentScore);
+                    var avgMagnitude = score.Average(a => a.SentimentMag);
+
+                    var groupedTweetsByYear = score.GroupBy(a => a.Tweet.Time.Value.Year);
+                    var returnV = new { avgSentimentScore, avgMagnitude, Count = score.Count()};
+                    returnVal = Json(returnV);
                 }
             }
             catch (Exception e)

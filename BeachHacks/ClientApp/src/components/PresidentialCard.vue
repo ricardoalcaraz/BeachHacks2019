@@ -3,22 +3,26 @@
     <p>
       <img class="headshot" :src="getImgUrl(name)" align="left">
       <b-button v-b-toggle="'collapse' + id" variant="primary"> <span class="cardTitle">{{ name.toUpperCase() }}</span> </b-button>
-        <br />
-          <span class="cardText">
-            AGE: {{ age }} 
-            |
-            POLITICAL AFFILIATION: {{ party_name }}
-          </span>
+      <br />
+      <span class="cardText">
+        AGE: {{ age }}
+        |
+        POLITICAL AFFILIATION: {{ party_name }}
+      </span>
       <b-collapse :id="'collapse' + id" class="mt-2">
         <b-card>
     <p class="card-text">
+    <p>
       Average Sentiment = {{averageSentiment}}
-      <GChart type="ColumnChart"
-              :data="chartData"
-              :options="chartOptions" />
+      </br>
+      Average Magnitude = {{averageMag}}
     </p>
-        </b-card>
-      </b-collapse>
+    Total Tweets Analyzed = {{tweetCount}}
+    <GChart type="ColumnChart"
+            :data="chartData"
+            :options="chartOptions" />
+    </b-card>
+    </b-collapse>
     </p>
   </div>
 </template>
@@ -43,19 +47,16 @@ export default {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200],
-        ['2015', 1170, 460, 250],
-        ['2016', 660, 1120, 300],
-        ['2017', 1030, 540, 350]
+        ['Average Sentiment', 'Average Magnitude']
       ],
       chartOptions: {
         chart: {
-          title: 'Sentience Score',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017'
+          title: 'Sentience Score'
         }
       },
-      averageSentiment: 0
+      averageSentiment: 0,
+      averageMag: 0,
+      tweetCount: 0
     }
   },
   components: {
@@ -71,7 +72,12 @@ export default {
         return response.json()
       })
       .then(function (data) {
-        vm.averageSentiment = data
+        console.log(data)
+        var chartEntry = [data.avgSentimentScore * 1000, data.avgMagnitude * 1000]
+        vm.chartData.push(chartEntry)
+        vm.averageSentiment = data.avgSentimentScore
+        vm.averageMag = data.avgMagnitude
+        vm.tweetCount = data.count
         console.log(vm.averageSentiment)
       })
   }
