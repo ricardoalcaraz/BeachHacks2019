@@ -14,7 +14,8 @@
           <presCard v-for="candidate in candidates"
                     v-bind:name="candidate.name"
                     v-bind:age="candidate.age"
-                    v-bind:party_name="candidate.partyName"></presCard>
+                    v-bind:party_name="candidate.partyName"
+                    v-bind:location="candidate.location"></presCard>
         </div>
       </div>
       <router-view></router-view>
@@ -42,7 +43,7 @@ export default {
     // can access it inside the promise function
     var vm = this
     // Fetch our array of candidates from an API
-    fetch('https://localhost:44381/api/Home/GetPresidentialCandidates')
+    fetch('https://localhost:5001/api/Home/GetPresidentialCandidates')
       .then(function (response) {
         return response.json()
       })
