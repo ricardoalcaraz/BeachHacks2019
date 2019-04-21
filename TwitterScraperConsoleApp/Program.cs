@@ -21,8 +21,8 @@ namespace TwitterScraperConsoleApp
             IAuthorizer authorizer = DoPinOAuth();
             authorizer.AuthorizeAsync().Wait();
             var twitterCtx = new TwitterContext(authorizer);
-            string twitterHandle = "SenWarren";
-            int presidentialCandidateID = 1;
+            string twitterHandle = "Placeholder";
+            int presidentialCandidateID = 0;
             GetPresidentialCandidateTweets(twitterCtx, twitterHandle, presidentialCandidateID).Wait();
             //AndrewYang
             Console.Write("\nPress any key to close console window...");
