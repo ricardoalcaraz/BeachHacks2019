@@ -1,10 +1,10 @@
 <template>
-  <div class='filters'>
+  <div class='sidebarFilters'>
     <div class='party'>
-      <b-button v-b-toggle.my-collapse>
+      <b-button v-b-toggle.my-collapse1>
         <span class="when-opened">- </span> <span class="when-closed">+ </span> PARTY
       </b-button>
-      <b-collapse id="my-collapse">
+      <b-collapse id="my-collapse1">
         <div class="content">
           <input type="checkbox" name="party1" value="Democratic">  DEMOCRATIC<br>
           <input type="checkbox" name="party2" value="Republican">  REPUBLICAN<br>
@@ -13,17 +13,16 @@
     </div>
    
     <div class='display'>
-      <b-button v-b-toggle.my-collapse>
+      <b-button v-b-toggle.my-collapse2>
         <span class="when-opened">- </span> <span class="when-closed">+ </span> DISPLAY
       </b-button>
-      <b-collapse id="my-collapse">
+      <b-collapse id="my-collapse2">
         <div class="content">
           <input type="checkbox" name="display1" value="issues">  ISSUES<br>
           <input type="checkbox" name="display2" value="experience">  EXPERIENCE<br>
         </div>
       </b-collapse>
     </div>
-
   </div>
 </template>
 
@@ -41,7 +40,7 @@ Vue.use(Collapse)
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-div.filters {
+.sidebarFilters {
   padding-left: 20px;
   padding-top: 40px;
   width: 200px;
@@ -72,5 +71,9 @@ div.content {
 .collapsed > .when-opened,
 :not(.collapsed) > .when-closed {
   display: none;
+}
+
+.content {
+  margin-top:10px;
 }
 </style>

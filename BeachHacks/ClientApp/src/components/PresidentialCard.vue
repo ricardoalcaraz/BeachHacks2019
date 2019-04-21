@@ -1,8 +1,11 @@
 <template>
   <div class="card">
-    <h2 class="cardTitle">{{ name }}</h2>
-    <p>Age: {{ age }}</p>
-    <p>Political Affiliation: {{ party_name }}</p>
+    <h2 class="cardTitle">{{ name.toUpperCase() }}</h2>
+    <p>
+      AGE: {{ age }}
+      POLITICAL AFFILIATION: {{ party_name }}
+    </p>
+    <hr />
   </div>
 </template>
 
@@ -16,20 +19,24 @@ export default {
 <style scoped>
   .card {
     margin: 8px;
-    border: 1px solid black;
     padding: 10px;
-    width: 200px;
-    border-radius: 10px;
+    border: none;
+    /*border: 1px solid black;*/
+    /*border-radius: 10px;*/
   }
 
   .card:hover {
-    box-shadow: 10px;
+    /*box-shadow: 10px;*/
   }
 
   .cardTitle {
     font-weight: lighter;
     padding-right: 5px;
     font-family: Tahoma, Geneva, sans-serif;
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  .cardTitle:hover {
+    color: red;
   }
 </style>

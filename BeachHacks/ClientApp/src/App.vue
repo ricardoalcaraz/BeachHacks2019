@@ -7,13 +7,15 @@
         <a class="pages">|</a>
         <a href="/" class="pages redLetters">ALL CANDIDATES</a>
     </div>
-    <sidebar></sidebar>
     <main>
-      <div class="person-list">
-        <presCard v-for="candidate in candidates"
-                  v-bind:name="candidate.name"
-                  v-bind:age="candidate.age"
-                  v-bind:party_name="candidate.partyName"></presCard>
+      <div class="mainPage">
+        <sidebar></sidebar>
+        <div class="person-list">
+          <presCard v-for="candidate in candidates"
+                    v-bind:name="candidate.name"
+                    v-bind:age="candidate.age"
+                    v-bind:party_name="candidate.partyName"></presCard>
+        </div>
       </div>
       <router-view></router-view>
     </main>
@@ -97,7 +99,14 @@ a.pages {
 }
 
 .person-list {
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: row;
+  /*justify-content: space-between*/
 }
 </style>
