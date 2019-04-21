@@ -13,4 +13,4 @@ namespace BeachHacks.Models
         public virtual Tweet Tweet { get; set; }
     }
 }
-}
+
