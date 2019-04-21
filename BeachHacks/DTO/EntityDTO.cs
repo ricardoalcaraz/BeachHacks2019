@@ -8,5 +8,7 @@ namespace BeachHacks.DTO
         public string Name { get; set; }
         public Entity.Types.Type Type { get; set; }
         public float Salience { get; set; }
+        public float Sentiment_Score { get; set; }
+        public float Sentiment_Mag { get; set; }
     }
 }

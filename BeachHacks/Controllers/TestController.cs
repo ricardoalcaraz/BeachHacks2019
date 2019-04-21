@@ -20,7 +20,7 @@ namespace BeachHacks.Controllers
 
         // GET: /<controller>/
 
-        //public ActionResult<IEnumerable<string>> Get()
+
         //{
             //TestDTO response;
             //using (PolitiFactContext db = new PolitiFactContext())
@@ -51,7 +51,7 @@ namespace BeachHacks.Controllers
 
             //return Ok(data);
         //}
-
+        /*
         [HttpGet("{handle}")]
         public ActionResult<IEnumerable<string>> Get(string handle)
         {
@@ -114,7 +114,7 @@ namespace BeachHacks.Controllers
 
         }
 
-
+    */
         //[HttpGet("{handle}")]
         //public ActionResult<IEnumerable<string>> Get(string handle)
         //{

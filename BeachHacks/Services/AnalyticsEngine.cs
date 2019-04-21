@@ -34,7 +34,7 @@ namespace BeachHacks.Services
                 return false;
         }
 
-        public AnalysisDTO getAnalysis(IEnumerable<Entity> entities)
+        public List<EntityDTO> getAnalysis(IEnumerable<Entity> entities)
         {
             List<EntityDTO> eresponse = new List<EntityDTO>();
             foreach (Entity e in entities)
@@ -43,7 +43,9 @@ namespace BeachHacks.Services
                 {
                     Name = e.Name,
                     Type = e.Type,
-                    Salience = e.Salience
+                    Salience = e.Salience,
+                    Sentiment_Score = e.Sentiment.Score,
+                    Sentiment_Mag = e.Sentiment.Magnitude
                 };
 
                 eresponse.Add(entityData);
@@ -65,13 +67,7 @@ namespace BeachHacks.Services
             //}
 
 
-            AnalysisDTO analysis = new AnalysisDTO
-            {
-                Entities = eresponse,
-                Categories = cresponse
-            };
-
-            return analysis;
+            return eresponse;
         }
     }
 }

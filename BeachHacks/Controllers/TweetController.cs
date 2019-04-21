@@ -32,7 +32,7 @@ namespace BeachHacks.Controllers
                     DateTime dt = DateTime.Now.AddDays(DAYS_BACK);
                     var query = db.Tweet.Where(a => a.TwitterName == handle && a.Time >= dt).ToList();
 
-                    List<AnalysisDTO> analyses = new List<AnalysisDTO>();
+                    List<List<EntityDTO>> analyses = new List<List<EntityDTO>>();
                     AnalyticsEngine ae = new AnalyticsEngine();
 
 
@@ -40,26 +40,30 @@ namespace BeachHacks.Controllers
                     foreach (Tweet t in query)
                     {
                         var client = LanguageServiceClient.Create();
-                        var eresponse = client.AnalyzeEntities(new Document()
+                        var eresponse = client.AnalyzeEntitySentiment(new Document()
                         {
                             Content = t.Text,
                             Type = Document.Types.Type.PlainText
                         });
 
-                        if (ae.isTokenSufficient(t.Text))
-                        {
-                            var cresponse = client.ClassifyText(new Document()
-                            {
-                                Content = t.Text,
-                                Type = Document.Types.Type.PlainText
-                            });
+                        analyses.Add(ae.getAnalysis(eresponse.Entities));
 
-                            analyses.Add(ae.getAnalysis(eresponse.Entities, cresponse.Categories));
-                        }
-                        else
-                        {
-                            analyses.Add(ae.getAnalysis(eresponse.Entities, Enumerable.Empty<ClassificationCategory>()));
-                        }
+                        //if (ae.isTokenSufficient(t.Text))
+                        //{
+                        //    var cresponse = client.ClassifyText(new Document()
+                        //    {
+                        //        Content = t.Text,
+                        //        Type = Document.Types.Type.PlainText
+                        //    });
+
+                        //    analyses.Add(ae.getAnalysis(eresponse.Entities, cresponse.Categories));
+                        //}
+                        //else
+                        //{
+                        //    analyses.Add(ae.getAnalysis(eresponse.Entities, Enumerable.Empty<ClassificationCategory>()));
+                        //}
+
+
 
                         WriteDataToDatabase(db, analyses.Last(), t);
                     }
@@ -73,28 +77,19 @@ namespace BeachHacks.Controllers
         }
 
         //The following process is gonna be really fucking slow so never repeat this shit
-        private void WriteDataToDatabase(PolitiFactContext db, AnalysisDTO entry, Tweet tweet)
+        private void WriteDataToDatabase(PolitiFactContext db, List<EntityDTO> analysis, Tweet tweet)
         {
             try
             {
-                foreach (CategoryDTO category in entry.Categories)
+                foreach(var entry in analysis)
                 {
-                    var categoryEntry = new Categories
-                    {
-                        TweetId = tweet.TweetId,
-                        Confidence = (decimal)category.Confidence
-                    };
-                    db.Categories.Add(categoryEntry);
-                }
-                foreach (EntityDTO entity in entry.Entities)
-                {
-                    var entityEntry = new Entities
-                    {
-                        TweetId = tweet.TweetId,
-                        Salience = (decimal)entity.Salience,
-                        Type = entity.Type.ToString()
-                    };
-                    db.Entities.Add(entityEntry);
+                        var entityEntry = new Entities
+                        {
+                            TweetId = tweet.TweetId,
+                            Salience = (decimal)entry.Salience,
+                            Type = entry.Type.ToString()
+                        };
+                        db.Entities.Add(entityEntry);
                 }
                 db.SaveChanges();
             }

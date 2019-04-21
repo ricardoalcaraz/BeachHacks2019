@@ -16,11 +16,11 @@ namespace BeachHacks.DAL
         {
         }
 
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Entities> Entities { get; set; }
         public virtual DbSet<Politicalparty> Politicalparty { get; set; }
         public virtual DbSet<Presidentialcandidate> Presidentialcandidate { get; set; }
         public virtual DbSet<Tweet> Tweet { get; set; }
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Entities> Entities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -70,11 +70,11 @@ namespace BeachHacks.DAL
                     .HasColumnName("salience")
                     .HasColumnType("numeric");
 
-                entity.Property(e => e.TweetId).HasColumnName("tweet_id");
+                entity.Property(e => e.SentimentMag).HasColumnName("sentiment_mag");
 
-                entity.Property(e => e.Type)
-                    .HasColumnName("type")
-                    .HasMaxLength(100);
+                entity.Property(e => e.SentimentScore).HasColumnName("sentiment_score");
+
+                entity.Property(e => e.TweetId).HasColumnName("tweet_id");
 
                 entity.HasOne(d => d.Tweet)
                     .WithMany(p => p.Entities)
