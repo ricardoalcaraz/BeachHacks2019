@@ -9,10 +9,12 @@
     </div>
     <sidebar></sidebar>
     <main>
-      <presCard v-for="candidate in candidates"
-                v-bind:name="candidate.name"
-                v-bind:age="candidate.age"
-                v-bind:party_name="candidate.partyName"></presCard>
+      <div class="person-list">
+        <presCard v-for="candidate in candidates"
+                  v-bind:name="candidate.name"
+                  v-bind:age="candidate.age"
+                  v-bind:party_name="candidate.partyName"></presCard>
+      </div>
       <router-view></router-view>
     </main>
     
@@ -94,4 +96,8 @@ a.pages {
   color:red;
 }
 
+.person-list {
+  display: flex;
+  flex-direction: column;
+}
 </style>
