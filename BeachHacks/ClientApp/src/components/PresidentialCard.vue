@@ -11,11 +11,12 @@
           </span>
       <b-collapse :id="'collapse' + id" class="mt-2">
         <b-card>
-          <p class="card-text">
-            <GChart type="ColumnChart"
-                    :data="chartData"
-                    :options="chartOptions" />
-          </p>
+    <p class="card-text">
+      Average Sentiment = {{averageSentiment}}
+      <GChart type="ColumnChart"
+              :data="chartData"
+              :options="chartOptions" />
+    </p>
         </b-card>
       </b-collapse>
     </p>
@@ -33,6 +34,9 @@ export default {
     getImgUrl (person) {
       var images = require.context('../assets/', false, /\.jpg$/)
       return images('./' + person.replace(/ /g, '') + '.jpg')
+    },
+    getPR () {
+      return this.id
     }
   },
   data () {
@@ -47,14 +51,29 @@ export default {
       ],
       chartOptions: {
         chart: {
-          title: 'Company Performance',
+          title: 'Sentience Score',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017'
         }
-      }
+      },
+      averageSentiment: 0
     }
   },
   components: {
     GChart
+  },
+  created: function () {
+    // Alias the component instance as `vm`, so that we
+    // can access it inside the promise function
+    var vm = this
+    // Fetch our array of candidates from an API
+    fetch('https://localhost:44381/api/Home/GetSentimentScore/' + this.getPR())
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        vm.averageSentiment = data
+        console.log(vm.averageSentiment)
+      })
   }
 }
 </script>

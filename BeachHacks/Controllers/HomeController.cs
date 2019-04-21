@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using BeachHacks.DAL;
 using BeachHacks.Models;
@@ -46,20 +47,28 @@ namespace BeachHacks.Controllers
 
         [HttpGet]
         [Route("GetSentimentScore/{id}")]
-        public JsonResult GetAverageSentimentScore(int id)
+        public JsonResult GetSentimentScore(int id)
         {
-            JsonResult returnVal;
-            using (PolitiFactContext db = new PolitiFactContext())
+            JsonResult returnVal = null;
+            try
             {
-                var score = from entity in db.Entities
-                    join tweet in db.Tweet on entity.TweetId equals tweet.TweetId
-                    where tweet.PoliticalCandidate == id
-                            select entity;
-                var avgSentimentScore = score.Average(a => a.SentimentScore);
-                returnVal = Json(avgSentimentScore);
+                using (PolitiFactContext db = new PolitiFactContext())
+                {
+                    var score = from entity in db.Entities
+                        join tweet in db.Tweet on entity.TweetId equals tweet.TweetId
+                        where tweet.PoliticalCandidate == id
+                        select entity;
+                    var avgSentimentScore = score.Average(a => a.SentimentScore);
+                    returnVal = Json(avgSentimentScore);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
             return returnVal;
+
         }
 
         [HttpGet]
