@@ -1,4 +1,3 @@
-
 <template>
   <div class='filters'>
     <div class='party'>
@@ -42,12 +41,10 @@ Vue.use(Collapse)
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
 div.filters {
   padding-left: 20px;
   padding-top: 40px;
   width: 200px;
-  
 }
 
 .btn {
@@ -76,7 +73,4 @@ div.content {
 :not(.collapsed) > .when-closed {
   display: none;
 }
-
-
-
 </style>
