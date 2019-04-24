@@ -11,15 +11,19 @@ namespace BeachHacks.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly PolitiFactContext _context;
+
+        public ValuesController(PolitiFactContext context)
+        {
+            _context = context;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            using(PolitiFactContext db = new PolitiFactContext())
-            {
-                var democrat = db.Politicalparty.First();
-                var presidentialCandidate = db.Presidentialcandidate.First();
-            }
+
+            var democrat = _context.Politicalparty.First();
+            var presidentialCandidate = _context.Presidentialcandidate.First();
             return new string[] { "value1", "value2" };
         }
 

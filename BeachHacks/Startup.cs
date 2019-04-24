@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BeachHacks.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,6 +39,11 @@ namespace BeachHacks
                       .WithOrigins("http://localhost:8080");
                 });
             });
+
+            services.AddEntityFrameworkNpgsql()
+                .AddDbContext<PolitiFactContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("PolitiFactDatabase")))
+                .BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

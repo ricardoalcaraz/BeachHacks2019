@@ -2,10 +2,12 @@
 using BeachHacks.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace BeachHacks.DAL
 {
-    public partial class PolitiFactContext : DbContext
+    public class PolitiFactContext : DbContext
     {
         public PolitiFactContext()
         {
@@ -21,15 +23,6 @@ namespace BeachHacks.DAL
         public virtual DbSet<Politicalparty> Politicalparty { get; set; }
         public virtual DbSet<Presidentialcandidate> Presidentialcandidate { get; set; }
         public virtual DbSet<Tweet> Tweet { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Host=localhost;Database=PolitiFact;Username=beachhacks;Password=beachhacks2019");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

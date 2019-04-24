@@ -16,35 +16,32 @@ namespace BeachHacks.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-        Dictionary<int, string> CandidateImages = new Dictionary<int, string>();
+        private readonly PolitiFactContext _context;
 
-        public HomeController()
+        public HomeController(PolitiFactContext context)
         {
-            CandidateImages.Add(1, "..\\ClientApp\\src\\assets\\ElizabethWarrenProfile.jpg");
+            _context = context;
         }
 
         [HttpGet]
         [Route("GetPresidentialCandidates")]
         public JsonResult GetPresidentialCandidates()
         {
-            using (PolitiFactContext db = new PolitiFactContext())
-            {
-                var candidates = db.Presidentialcandidate
-                    .Include(p => p.PoliticalParty)
-                    .Select(p =>
-                    new {
-                        p.Name,
-                        p.Age,
-                        p.PoliticalParty.PartyName,
-                        p.State,
-                        p.UserId,
-                        location = "../assets/" + p.Name.Replace(" ", "") + ".jpg",
-                        twitterHandle = db.Tweet.FirstOrDefault(a => a.PoliticalCandidate == p.UserId).TwitterName
-                    })
-                    .ToList();
+            var candidates = _context.Presidentialcandidate
+                .Include(p => p.PoliticalParty)
+                .Select(p =>
+                new {
+                    p.Name,
+                    p.Age,
+                    p.PoliticalParty.PartyName,
+                    p.State,
+                    p.UserId,
+                    location = "../assets/" + p.Name.Replace(" ", "") + ".jpg",
+                    twitterHandle = _context.Tweet.FirstOrDefault(a => a.PoliticalCandidate == p.UserId).TwitterName
+                })
+                .ToList();
 
-                return Json(candidates);
-            }
+            return Json(candidates);
         }
 
         [HttpGet]
@@ -54,19 +51,17 @@ namespace BeachHacks.Controllers
             JsonResult returnVal = null;
             try
             {
-                using (PolitiFactContext db = new PolitiFactContext())
-                {
-                    var score = from entity in db.Entities
-                        join tweet in db.Tweet on entity.TweetId equals tweet.TweetId
-                        where tweet.PoliticalCandidate == id
-                        select entity;
-                    var avgSentimentScore = score.Average(a => a.SentimentScore);
-                    var avgMagnitude = score.Average(a => a.SentimentMag);
 
-                    var groupedTweetsByYear = score.GroupBy(a => a.Tweet.Time.Value.Year);
-                    var returnV = new { avgSentimentScore, avgMagnitude, Count = score.Count()};
-                    returnVal = Json(returnV);
-                }
+                var score = from entity in _context.Entities
+                    join tweet in _context.Tweet on entity.TweetId equals tweet.TweetId
+                    where tweet.PoliticalCandidate == id
+                    select entity;
+                var avgSentimentScore = score.Average(a => a.SentimentScore);
+                var avgMagnitude = score.Average(a => a.SentimentMag);
+
+                var groupedTweetsByYear = score.GroupBy(a => a.Tweet.Time.Value.Year);
+                var returnV = new { avgSentimentScore, avgMagnitude, Count = score.Count()};
+                returnVal = Json(returnV);
             }
             catch (Exception e)
             {
@@ -88,12 +83,11 @@ namespace BeachHacks.Controllers
         public ActionResult CandidateInfo(string name)
         {
             ActionResult returnVal;
-            using (PolitiFactContext db = new PolitiFactContext())
-            {
-                var candidate = db.Presidentialcandidate.FirstOrDefault(p => p.Name == name);
-                returnVal = View(candidate);
-                ViewBag.Candidate = candidate;
-            }
+
+            var candidate = _context.Presidentialcandidate.FirstOrDefault(p => p.Name == name);
+            returnVal = View(candidate);
+            ViewBag.Candidate = candidate;
+
             return returnVal;
         }
     }
